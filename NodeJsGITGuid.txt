@@ -1,0 +1,10 @@
+
+cd D:\4_NODEJS_K\NodeJS_2023_All\
+git init
+git add NodeJsGITGuid.txt .gitignore
+git add NodeTutorial_64/
+
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/kreshan882/NodeJS_2023_All.git
+git push -u origin main
