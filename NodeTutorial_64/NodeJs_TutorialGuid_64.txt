@@ -1,0 +1,126 @@
+	===> 64 video tutorial
+
+1) Introduction Node-js
+		open source
+		Cross-pateform [ avaliable (mac+Winndows+Linux)
+		JavaScript Run time env
+		
+		
+2) ECMAScript  [ECMA International]
+		(JS run top of ECMAScript)
+		1997
+		2015[ES6] 
+		
+ 3) Chrome V8 Engine
+		Each Browser have different JS engine 
+			3.1) V8 - Chrome engine   -------------> Core of NodeJs [writen in C++)
+			3.2) SpiderMonkey - Firefox
+			3.3) JavaScriptCore - Apple Safari
+			3.4) Chakra - Microsoft Edge
+			
+4) JavaScript Run time Archicture
+		V8 JS Engine (Memory+Call Stack)[EgmaScript/C++] ----> Chrome Browser API(DOM+ STROAGE+ TIMERS) -----> EvenLoop(MictoTask Que+ CallBack Task Que) (Asynck) <--> V8 JS Engine
+			
+5) NodeJs
+		RUN JS program outside the browser (with V8 engile)
+		OPEN SOURCE GITHUB [https://github.com/nodejs/node/tree/main]
+			deps/ 
+				V8(chrome browser engine)
+				lib-uv (help to access fileSystem+ network ) opensrv lib-uv
+				z-lib , Crypto, ext....
+				
+			src/
+				(C++ code)
+				
+			libs/
+				fs.js
+				path.js .... (js lib code,  tel details to C++)
+ 
+6) Hello World
+		REPL (Read | Evaluate | Print | Loop)
+		node -v
+		node index.js
+		node index
+		
+7) continue in Git..................................................
+7) Browser Js ---> DOM, cookies (API)
+   Node js    ---> Dont have Document & Windows ,provide throuth with its Modules 
+		
+8) Modules
+		Encapsulated reusable chunk of code
+		Types
+			8.1) Local Modules   ---> movie.js  (develope create)
+			8.2) Build in Modules --> path.js (node js ship out of box)
+			8.3) Third party module  ---> datepicker.js
+ 
+9/10) Local Modules
+		each .js file is a module (eg: 3_math.js) 
+		DEBUG ===> Select file in vs-code --> RUN & Debug ===> step by step run
+		EXPORT ===> module.exports = {add,sub};
+					exports.add= (a,b) => a+b;
+					
+	11) Module Scope
+	12) Module Wraper [IIFE] (alys wrape with 5 parameters)
+			(function(exports,require,module,__filename,__dirname) {
+				const superHero="kamal";
+				console.log(msg,superHero);
+			})("Hi:");
+			
+			exports, -----> export thr .js functions
+			require, -----> importing the .js file
+			module, ------> each .js file
+			__filename,
+			__dirname ---===> this variable can seee when run with Debug mode
+			
+	13/14) Module Caching / import & export
+			cash the name value when modifi setName("kreshan")
+
+	15) Exports  | Module.exports different
+			15.1) exports.sub= (a,b) => a-b;
+			15.2) module.exports = {add,sub};
+			
+	16) ES Modules [.MJS]
+			ES Module | EcmaScript Module | ESM
+			
+			2.2_server.mjs (ES Module)
+				>> node ./2.2_server.mjs ---> run th efilr [5min/64]
+						module.exports = {add,sub};
+						import {add,sub}  from './math.mjs';
+						
+			2.1_server.js (Common Js)
+				>> node 2.1_server.js
+						module.exports = {add,sub};
+						const {add,sub}= require('./3_math');  ----> index.js
+	 
+	 
+	17) Importing JSON and Watch Mode
+			const data=require("./data.json");
+	 
+			 Watch Mode [same like node demon
+			 ---> restarted the process when change in import object(require() )
+				>>node --watch .\1_index.js   *****************************************
+			
+
+			
+18) Built-in Modules [8.2]
+		(node js ship out of box)
+		18.1) path.js 
+		18.2) events
+		18.3) fs
+		18.4) stream
+		18.5) http , ext...........
+		>> node --watch .\4_BuildInModule.js
+		
+		
+	19) path
+	20) Callback Pattern	
+			20.1) SynChronous callback 
+				(callback is execute imediately)
+					
+					
+			20.2) AsynChronous callback 
+				(continue & resume code execution after AsynChronous operation completed
+				blocking execution
+					read data from file
+					
+	21 - Events Module --------------------------????????????????????
