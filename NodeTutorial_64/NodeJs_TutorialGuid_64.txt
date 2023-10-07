@@ -1,4 +1,4 @@
-	===> 64 video tutorial
+	https://www.youtube.com/watch?v=Su0-Y9coU3s&list=PLC3y8-rFHvwh8shCMHFA5kWxD9PaPwxaY&index=21 ===> 64 video tutorial
 
 1) Introduction Node-js
 		open source
@@ -45,15 +45,17 @@
 7) continue in Git..................................................
 7) Browser Js ---> DOM, cookies (API)
    Node js    ---> Dont have Document & Windows ,provide throuth with its Modules 
-		
+
+###############################		
 8) Modules
+###############################
 		Encapsulated reusable chunk of code
 		Types
 			8.1) Local Modules   ---> movie.js  (develope create)
 			8.2) Build in Modules --> path.js (node js ship out of box)
 			8.3) Third party module  ---> datepicker.js
  
-9/10) Local Modules
+9/10) Local Modules******************************************************************************************************
 		each .js file is a module (eg: 3_math.js) 
 		DEBUG ===> Select file in vs-code --> RUN & Debug ===> step by step run
 		EXPORT ===> module.exports = {add,sub};
@@ -102,7 +104,7 @@
 			
 
 			
-18) Built-in Modules [8.2]
+18) Built-in Modules [8.2] ******************************************************************************************************
 		(node js ship out of box)
 		18.1) path.js 
 		18.2) events
@@ -112,15 +114,139 @@
 		>> node --watch .\4_BuildInModule.js
 		
 		
-	19) path
+	19) path [18.1]
 	20) Callback Pattern	
 			20.1) SynChronous callback 
 				(callback is execute imediately)
-					
+				 let number=[1,2,6,4,5];
+					number.sort((a,b)=> a-b);
+					number.filter(n => n%2 ===0);
+					number.map(n=> n/2);	
 					
 			20.2) AsynChronous callback 
-				(continue & resume code execution after AsynChronous operation completed
-				blocking execution
+				(continue & resume code execution after AsynChronous operation completed)
+					blocking execution
 					read data from file
 					
-	21 - Events Module --------------------------????????????????????
+	21/22) Events Module | Extending from EventEmitter [18.2]
+				events allowed to code non-blocking manner
+					events trigered
+					show the responce
+					  
+			class PitzaShop extends EventEmitter{
+			}
+			
+	23/24/25) Detours
+			Charactor Set
+				Ascii table|Unicode [Charactor-> number-> binary ]
+				
+			Encording
+				character encoding system [UTF-8] --> Character shore in Binary(8-bit) format
+				V == 86 == [0101 0110]
+				
+			Stream & Buffer
+				Stream: Sequence of data move one point to another[between compouer | between files]
+						chunk By chunk data download (from youtube | log file]
+				Buffer: Node send data chunk size (buffer 100 lines)
+				
+			Asynchronous javaScript
+				JS --> Synchronous | blocking |Single thread (alys run in Main thread| Single task per time)	======> So JS Have issue to create Apple
+				NEW: Asynchronous | Non-blocking ===> behavior can do in Browser(FrountEnd) & NodeJs (Backend)
+					
+					
+	26/27) FS 
+			Synchronous | Aschronous
+				const fileContains_sync=fs.readFileSync('./logs/log_read.txt','UTF-8');
+				fs.readFile('./logs/log_read.txt','UTF-8',(error, data) => {   })
+			
+			Promize Model
+				fs_p.readFile('./logs/log_read.txt','UTF-8')
+					  .then()
+					  .catch();
+					  
+			Async function
+				async function readFile(){
+					try{
+						const data= await fs_p.readFile('./logs/log_read.txt','UTF-8');
+					}catch(err){
+						console.log("fs-promizes2 error:"+error);
+					}
+				}
+	
+	28/29) FS [Streams & Pipes]
+			readable Strean
+			writable stream
+			Duplex stream==> read & write |socket program
+			Transform stream -> compres to ZIP file [using PIPES]
+			
+	30/31/32/33/34/35) HTTP
+			30)http Vs node
+				Node js access OS function like (Network)
+				Node As an event loop | to run task Asynchronous| non blocking- can handel large volum data
+				node:http allow create web server , can transfer data over http
+			
+		    31) Creating a Node Server	
+			32) JSON Response [http://localhost:3000/jsonRes] 
+					const user={"name":"kreshan", "age":33}
+					res.writeHead(200,{'Content-type':'application/json'});
+					res.write(JSON.stringify(user));
+			
+			33) HTML Response [http://localhost:3000/htmlRes ]
+					const html= fs.readFileSync('index.html','utf-8');  
+					res.end(html);	
+			
+					const readStream= fs.createReadStream('index.html'); 
+					readStream.pipe(res);
+			
+			34) HTML Template [Dynamicaly change the value]
+					let html= fs.readFileSync('index.html','utf-8'); 
+					html=html.replace("{{childName}}",childName);
+					
+			35) HTTP Routing
+					if(req.url === '/htmlRes'){}
+					else{}
+					
+	36) Web Framework	
+			nodejs lib ==>top of http -> express| nest| hapi |koa| sails
+			
+37 - Node Runtime Recap ******************************************************************************************************
+		37.1) DEPENDENCY
+				V8----> chrome engine
+				LIB-UV  --> (help to access fileSystem[fs] + network(http) ) | help to handel multi thread (JS:Synchronous ----> NODE:Asynchronous)
+				Z-LIB   ---> zip
+				CRYPTO + ext...
+			
+		37.2) C/C++ features
+		
+		37.3) JS libeary
+
+38/39/40) LIB-UV 
+		open Src lib - suppoer all plateform
+		Handel Asynchronous | non-blocking in Node-js
+		USING: ENENT LOOP
+			   THREAD POOL
+			   
+		39) THREAD POOL
+				without libuv| Sync  | blocking     | more times
+				with libuv   | Async | non-blocking |less time
+				
+		40) THREAD POOL SIZE 
+				base on time==>4+4+2 (libuv thread pool have 4 thread default)
+				POOL SIZE DEFAULT = 4
+				process.env.UV_THREADPOOL_SIZE = 12; //12< OS.cpus().length can change
+				
+				==> 4+4+2
+				libuv-Hash time  1428
+				libuv-Hash time  1453
+				libuv-Hash time  1589
+				libuv-Hash time  1592
+				
+				libuv-Hash time  2989
+				libuv-Hash time  3057
+				libuv-Hash time  3103
+				libuv-Hash time  3163
+				
+				libuv-Hash time  4149
+				libuv-Hash time  4202
+				
+41) Network I/O		???????????
