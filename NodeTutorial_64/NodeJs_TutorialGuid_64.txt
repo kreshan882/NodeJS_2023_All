@@ -487,5 +487,14 @@
 							Instance Type : free
 							Advance-> Addenvironment variables | PORT |3000
 							CREATE WEB SERVICE
-					Click generated Link ----> 
+					Click generated Link ----> https://one0-indexdeploy.onrender.com/  ---> success
+					
+64) Wrapping Up - recop
+		recomended to learn 
+		1) express.js
+		2) jest | vitest (testing)
+		3) typescript
+
+
+############################################# Completed Success 09/0ct/2023 #######################################################################################################################
 		
