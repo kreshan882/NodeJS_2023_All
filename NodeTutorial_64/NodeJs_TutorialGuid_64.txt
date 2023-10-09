@@ -472,4 +472,20 @@
 								 const {Worker}=require("node:worker_threads");
 							
 63) Deploying Node.js App
+		HEROKU - not free
+		RENDER
+		FLY.io
+			    
+				1) SRC: https://github.com/kreshan882/NodeJS_2023_All.git /NodeTutorial_64/10_indexDeploy.js
+				2) https://render.com/  --> with gmail -> Web Services -> connect to GitHub -> Only select repositories [NodeJS_2023_All.git]
+					GITHUN Credintial [kreshan882@gmail.com/ kreshan882@key ] ---> 
+					Connect -> 
+							Name: 10_indexDeploy
+							Root Directory: NodeTutorial_64
+							Build Command : npm install
+							Start Command: node 10_indexDeploy.js
+							Instance Type : free
+							Advance-> Addenvironment variables | PORT |3000
+							CREATE WEB SERVICE
+					Click generated Link ----> 
 		
