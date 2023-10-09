@@ -1,0 +1,18 @@
+{
+  "name": "node-tutorial-64",
+  "version": "1.0.0",
+  "description": "kreshan",
+  "main": "1_index.js",
+  "scripts": {
+    "startK": "node --watch 6_testnpm.js"
+  },
+  "keywords": [
+    "key1"
+  ],
+  "author": "kreshan",
+  "license": "ISC",
+  "dependencies": {
+    "date-and-time": "^3.0.3",
+    "upper-case": "^3.0.0"
+  }
+}

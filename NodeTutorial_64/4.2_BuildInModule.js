@@ -50,13 +50,35 @@ crypto.pbkdf2Sync("password","salt",100000,512,"sha512"); //2702 ms
 console.log('Hash time ', Date.now()-start);
 
 //39.2 with libuv| Async | non-blocking |less time
-//process.env.UV_THREADPOOL_SIZE = 5;
 process.env.UV_THREADPOOL_SIZE = 6; //6< OS.cpus().length
 const start2=Date.now();
-for (let i=0; i<10;i++){ //base on time==>4+4+2 (libuv thread pool have 4 thread default)
+for (let i=0; i<1;i++){ //base on time==>4+4+2 (libuv thread pool have 4 thread default)
     crypto.pbkdf2("password","salt",100000,512,"sha512", () => {
         console.log('libuv-Hash time ', Date.now()-start2); //842 -> 1162 -> 1400 
     }); 
 }
 
 //41 Network I/O
+//    lib-uv handel in 2 different Way 
+       // 1) Native Async machanicium -----> [https]
+       // 2) Thread Pool ------> [crypto]
+const https=require("node:https");
+const start3=Date.now();
+for (let i=0; i<14;i++){ //base on time==>4+4+2 (libuv thread pool have 4 thread default)
+    https
+        .request("https://www.google.com",(res) =>{
+            res.on("data",() => {});
+            res.on("end",() => {
+                // all in same time, not using thered pool (with 4 batch)
+                console.log("io-time:",Date.now()-start3); 
+            });
+        })
+        .end();
+}  
+
+//42 even loop
+console.log("First"); // print in call stack
+fs.readFile("./logs/log_read.txt",()=>{  //send to lib-uv for Async 
+    console.log("Seconf");
+})
+console.log("Third"); // print in call stack

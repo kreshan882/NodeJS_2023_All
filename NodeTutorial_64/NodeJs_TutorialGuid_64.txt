@@ -249,4 +249,227 @@
 				libuv-Hash time  4149
 				libuv-Hash time  4202
 				
-41) Network I/O		???????????
+41) Network I/O		
+		lib-uv handel in 2 different Way 
+				1) Native Async machanicium -----> [https] in OS, | it also non-blocking the main thread
+						Kernal Mechanacium
+							Linus  :: epoll
+							Mac    :: kqueue
+							Windows:: IO Completion
+							
+				2) Thread Pool ------> [crypto]
+				
+42-48) Event Loop - (theary 14 Min)
+		JS==> Synchronous |blocking | Single THREAD
+		LIB-UV==> Asynchronous method run on below 6 QUEUE
+		
+		V8[MemoryHeap | Call Stack | global()] <----> for Async function [LIB-UV : (1) Native OS Async Mechanasiun | (2) Thread pool ]
+		
+		LUB-UV EVEN LOOP
+			1) timer Queue
+			2) Input/Output queue
+			3) check queue
+			4) close queue
+			5) MicroTask Queue
+				5.1) nextTick Queue
+				5.2) promize Queue
+			
+
+		43) MicroTask Queues execution flore theory
+				5.1) nextTick Queue	::process.nextTick(	 --P1 (1,2,3)
+				5.2) promize Queue  ::Promise.resolve()  --P2 (5,6,7,
+				
+				1) timer Queue
+				
+				
+				process.nextTick()  		1
+				process.nextTick(			2
+						process.nextTick()	4 
+					)
+				process.nextTick()			3
+				
+				Promise.resolve()			5
+				Promise.resolve(			6
+						process.nextTick() 	8 
+					)
+				Promise.resolve()			7
+				
+		44) Timer Queue
+				SetTimeout()				T9
+				SetTimeout(()=>{			T10
+						process.nextTick()	N11			
+					})
+				SetTimeout()				T12
+				
+				process.nextTick()  		N1
+				process.nextTick(			N2
+						process.nextTick()	N4 
+					)
+				process.nextTick()			N3
+				
+				Promise.resolve()			P5
+				Promise.resolve(			P6
+						process.nextTick() 	N8 
+					)
+				Promise.resolve()			P7
+				
+		45) Input/Output queue ==> readFile()
+				SetTimeout(()=>,0)					: 3 4 (can be any, when cuu bust timer Q because 4)
+				fs.readFile("./data.log",()=>{})	: 4 3
+				process.nextTick() 					: 1
+				Promise.resolve()					: 2
+		
+		46/47) I/O Polling ===>[setImmediate()]
+				SESSION_1
+					SetTimeout(()=>,0)					: 3 
+					fs.readFile("./data.log",()=>{})	: 555 [last= because of setImmediate()]
+					process.nextTick() 					: 1
+					Promise.resolve()					: 2
+					setImmediate()						: 4
+					
+				SESSION_2	
+					SetTimeout(()=>,0)					: 3 
+					fs.readFile("./data.log",()=>{		:4
+							setImmediate()				:7 (7,5,6 on this list 7 is last)
+							process.nextTick()			:5
+							Promise.resolve()			:6
+						})								
+					process.nextTick() 					: 1
+					Promise.resolve()					: 2
+				
+				SESSION_3
+					setImmediate()				:: 1
+					setImmediate(				:: 2
+							process.nextTick()	:: 3
+							Promise.resolve()	:: 4
+						)
+					setImmediate()				:: 5
+					
+				Session_4 (order can be swap)
+					setImmediate
+					SetTimeout(()=>,0)
+		
+		48) close queue
+				const readStrean=fs.readfile()
+				readStrean.close()
+				
+				readStrean.on("close",()=>{		: 5
+				}
+				setImmediate()					: 4
+				SetTimeout(()=>,0)				: 3
+				process.nextTick()				: 1
+				Promise.resolve()				: 2
+				
+		EVENT_LOOP: It was orchestrates the execution os SYNC| ASYNC code
+					execution the callBack in 6 different QUEUE
+					
+49) NPM [Node Package Manager]
+		package libeary (like yarn)
+		we can user outhe developer code, instance od re-developement.
+		
+50/51/52) Project initilization with vs-code 
+        50) paskage.json  install
+                npm init     ---> anser question ->create .json file
+
+        51) node_modules  install 
+				[https://www.npmjs.com/] ===> check the lib details hear
+                npm install upper-case
+                npm install abc_module
+                npm uninstall abc_module
+
+		52) using upper-case in code 
+				npm i date-and-time
+				
+		53) npm install  ===> install all dependency using CLI
+		
+		54) versioning
+			node_module Update [majoe ver, minor version, patch]
+                npm i date-and-time@3.0.3
+                ^4.  2.3  (only change minor veriopn, patch version)
+                ~4.2  .3  (only change patch version)
+				
+		55) Global Packages [not comming to package.json file]
+				npm install -g nodemon  [--watch] ---> auto run
+				npm uninstall -g nodemon
+				
+		56) npm Scripts
+				==> Before: node --watch 6_testnpm.js
+				==> PACKAGE.JSON
+				"scripts": {
+					"startK": "node 6_testnpm.js"
+				  }
+				  
+				>> cd D:\4_NODEJS_K\NodeJS_2023_All\NodeTutorial_64
+				>> npm run startK
+				
+##################################################################################				
+57) Publishing an npm Package
+##################################################################################
+		https://www.npmjs.com/ -> SignUp -> 
+				kreshan88 | 
+				kreshan88+key+Pd#1 
+				kreshan882@gmail.com
+				
+		>>cd D:\4_NODEJS_K\NodeJS_2023_All\NodeTutorial_64
+		>> npm adduser kreshan88    -------> add pw in browser
+		>> npm publish				-------> https://www.npmjs.com/package/node-tutorial-64   (Upload success)
+		>> npm i node-tutorial-64   -------> anyone can download and user
+		
+		
+58/59/60) CLI
+		58) Building CLI Tools	
+			CLI eg: NPM | GIT
+			cd D:\4_NODEJS_K\NodeJS_2023_All\NodeTutorial_64\my-custom-cli
+				#!/usr/bin/env node
+				console.log("kre cli pokedex test");
+				
+			   "bin": {
+					"kre-pokedex":"index.js"
+			   },
+			  
+			>> npm install -g
+			>> kre-pokedex   ----> local compoter anywhere its runing
+		
+		
+		59) CLI Options [Run With parameter]
+			cd D:\4_NODEJS_K\NodeJS_2023_All\NodeTutorial_64\my-custom-cli
+			REST SERVICE LIST===> https://pokeapi.co/
+			SERVICE ============> https://pokeapi.co/api/v2/pokemon/charmander  -----> print first 5 pokeman name
+			
+			>> kre-pokedex -------> just run any location 
+			>> npm install yargs
+			>> kre-pokedex --pokemon=charmander
+			>> kre-pokedex --pokemon=mew ==========> [ 'pound', 'mega-punch', 'pay-day', 'fire-punch', 'ice-punch' ]
+			
+			
+		60) Interactive CLI Tools [list of question asked from user]
+			>> npm install inquirer@8.2.5
+			
+		61) Cluster Module [improve CPU profomance]
+				
+				cluster.ja    -----------> check the different
+			
+				TIME CHECK ----> Inspct -> netword-> refresh -> localhost [time] 
+				
+				61.1) NO_CLUSTER.JS
+						both taken 11 Second ----> because of Single thread
+						http://localhost:3000/slowpage ---> http://localhost:3000/  (both 11S)  -------> can Resolved using cluster mode
+						http://localhost:3000/ (0.3 S) ---> http://localhost:3000/slowpage  (11 S)
+					
+				61.2) CLUSTER.JS
+						Master Node(index.js) ---> Worker Node 1 | Worker Node 2 | .... ----> each worker node have own (V8 engine/ memory /event loop )
+						
+				16.2) Worker Node handel in pm2
+						>> cd D:\4_NODEJS_K\NodeJS_2023_All\NodeTutorial_64\
+						>> npm install -g pm2
+						>> pm2 start no_cluster.js -i 0
+						>> pm2 ps
+						>> pm2 stop no_cluster.js
+						
+		62) Worker Threads Module
+				CLUSTER MODE : Multi Instance od Node JS (using fork())
+				WORK THRD MODEL: Single NodeJs Instance , run in multi app-Thread
+								 const {Worker}=require("node:worker_threads");
+							
+63) Deploying Node.js App
+		
